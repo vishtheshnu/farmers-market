@@ -12,12 +12,14 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -26,12 +28,19 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.fluids.FluidActionResult;
+import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.capability.templates.FluidTank;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.wrapper.InvWrapper;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
 public class CrushingTubBlock extends BaseEntityBlock {
+    private static final int CRAFT_SLOT = 0;
     public CrushingTubBlock(Properties pProperties) {
         super(pProperties);
     }
@@ -63,6 +72,11 @@ public class CrushingTubBlock extends BaseEntityBlock {
         return Shapes.or(Block.box(0, 0, 0, 16, 9, 16));
     }
 
+    @Override
+    public RenderShape getRenderShape(BlockState pState) {
+        return RenderShape.MODEL;
+    }
+
     /*
      * TODO: Implement when BlockEntity is defined.
      *  onRemove- called when block is broken, drop item inventory in world
@@ -82,10 +96,47 @@ public class CrushingTubBlock extends BaseEntityBlock {
     }
 
     @Override
-    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
-        pLevel.playSound(pPlayer, pPos, SoundEvents.NOTE_BLOCK_DIDGERIDOO.get(), SoundSource.BLOCKS, 1f, (float) Math.random());
-        return InteractionResult.SUCCESS;
-        //return super.use(pState, pLevel, pPos, pPlayer, pHand, pHit);
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        if(!level.isClientSide){
+            FluidActionResult fluidResult;
+            ItemStack stackInHand = player.getItemInHand(hand);
+            Item itemInHand = stackInHand.getItem();
+            if(level.getBlockEntity(pos) instanceof CrushingTubBE entity){
+                FluidTank fluidTank = entity.getFluidTank();
+                IItemHandler itemHandler = entity.getItemHandler();
+                ItemStack internalStack = itemHandler.getStackInSlot(CRAFT_SLOT);
+                Item internalItem = internalStack.getItem();
+
+
+                //try to bucket in to/out of
+                fluidResult = FluidUtil.tryEmptyContainerAndStow(stackInHand, fluidTank, new InvWrapper(player.getInventory()), 1000, player, true);
+                if(fluidResult.isSuccess())
+                    player.setItemInHand(hand, fluidResult.getResult());
+
+                fluidResult = FluidUtil.tryFillContainerAndStow(stackInHand, fluidTank, new InvWrapper(player.getInventory()), 1000, player, true);
+                if(fluidResult.isSuccess())
+                    player.setItemInHand(hand, fluidResult.getResult());
+
+                if(!stackInHand.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent()){
+                    if(internalStack.isEmpty() || (internalItem == itemInHand && (internalStack.getCount() < internalStack.getMaxStackSize()))){
+                        level.playSound(null, player.blockPosition(), SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.PLAYERS, 1.0F, 1.0F);
+                        int amountToInsert = Math.min(stackInHand.getCount(), internalStack.getMaxStackSize() - internalStack.getCount());
+                        itemHandler.insertItem(CRAFT_SLOT, new ItemStack(itemInHand, amountToInsert), false);
+                        entity.setChanged();
+                        entity.getLevel().sendBlockUpdated(entity.getBlockPos(), entity.getBlockState(), entity.getBlockState(), 3);
+                        if(!player.isCreative())
+                            stackInHand.shrink(amountToInsert);
+                    }
+                    else{
+                        level.playSound(null, player.blockPosition(), SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundSource.PLAYERS, 1.0F, 1.0F);
+                        if(!player.isCreative())
+                            popResourceFromFace(level, entity.getBlockPos(), player.getDirection().getOpposite(), internalStack);
+                        itemHandler.extractItem(CRAFT_SLOT, internalStack.getCount(), false);
+                    }
+                }
+            }
+        }
+        return InteractionResult.sidedSuccess(level.isClientSide);
     }
 
     @Override

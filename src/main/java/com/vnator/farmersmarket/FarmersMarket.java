@@ -5,6 +5,7 @@ import com.vnator.farmersmarket.block.ModBlocks;
 import com.vnator.farmersmarket.blockentity.ModBlockEntities;
 import com.vnator.farmersmarket.item.ModCreativeModeTabs;
 import com.vnator.farmersmarket.item.ModItems;
+import com.vnator.farmersmarket.recipe.ModRecipes;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -35,6 +36,7 @@ public class FarmersMarket
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
         ModBlockEntities.register(modEventBus);
+        ModRecipes.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
 

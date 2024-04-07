@@ -1,0 +1,8 @@
+{
+  "type": "farmers_market:crushing_tub",
+  "input": {
+    "item": "minecraft:snowball"
+  },
+  "output": "minecraft:water",
+  "outputAmount": 250
+}
