@@ -17,7 +17,7 @@ public class ModCreativeModeTabs {
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, FarmersMarket.MOD_ID);
 
     public static final RegistryObject<CreativeModeTab> MOD_TAB = CREATIVE_MODE_TABS.register("farmers_market_tab",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.SAPPHIRE.get()))
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModBlocks.CRUSHING_TUB.get()))
                     .title(Component.translatable("creativetab.farmers_market.tab"))
                     .displayItems((parameters, output) -> {
                         output.accept(ModBlocks.CRUSHING_TUB.get());
