@@ -19,8 +19,8 @@ public class ModItems {
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(ForgeRegistries.ITEMS, FarmersMarket.MOD_ID);
 
-    public static final RegistryObject<Item> SAPPHIRE = ITEMS.register("sapphire",
-            () -> new Item(new Item.Properties()));
+//    public static final RegistryObject<Item> SAPPHIRE = ITEMS.register("sapphire",
+//            () -> new Item(new Item.Properties()));
 
     public static final Map<String, RegistryObject<Item>> fluidBuckets = new HashMap<>();
     static {

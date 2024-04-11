@@ -44,7 +44,7 @@ public class FarmersMarket
         modEventBus.addListener(this::commonSetup);
 
         MinecraftForge.EVENT_BUS.register(this);
-        modEventBus.addListener(this::addCreative);
+        //modEventBus.addListener(this::addCreative);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
@@ -54,7 +54,7 @@ public class FarmersMarket
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
         if(event.getTabKey() == CreativeModeTabs.INGREDIENTS){
-            event.accept(ModItems.SAPPHIRE);
+            //event.accept(ModItems.SAPPHIRE);
         }
     }
 
