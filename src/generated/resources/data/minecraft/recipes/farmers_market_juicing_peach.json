@@ -1,0 +1,8 @@
+{
+  "type": "farmers_market:crushing_tub",
+  "input": {
+    "tag": "forge:fruits/peach"
+  },
+  "output": "farmers_market:juice_peach",
+  "outputAmount": 250
+}

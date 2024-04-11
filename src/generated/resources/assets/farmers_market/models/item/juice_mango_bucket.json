@@ -1,0 +1,5 @@
+{
+  "parent": "forge:item/bucket",
+  "fluid": "farmers_market:juice_mango",
+  "loader": "forge:fluid_container"
+}

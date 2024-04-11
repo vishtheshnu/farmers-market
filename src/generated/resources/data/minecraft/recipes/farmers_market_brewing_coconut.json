@@ -1,0 +1,6 @@
+{
+  "type": "farmers_market:brewing_barrel",
+  "brewTime": 6000,
+  "input": "farmers_market:juice_coconut",
+  "output": "farmers_market:wine_coconut"
+}

@@ -56,7 +56,6 @@ public class CrushingTubBE extends BlockEntity {
 
     public CrushingTubBE(BlockPos pPos, BlockState pBlockState) {
         super(ModBlockEntities.CRUSHING_TUB_BE.get(), pPos, pBlockState);
-
     }
 
     public void performCraft(){
@@ -78,7 +77,6 @@ public class CrushingTubBE extends BlockEntity {
             level.playSound(null, getBlockPos(), SoundEvents.WOOD_FALL, SoundSource.BLOCKS,
                     0.5f, new Random().nextFloat() * 0.1f + 0.9f);
         }
-        //TODO- call when crafting operation succeeds: setChanged();
     }
 
     private boolean hasRecipe(){

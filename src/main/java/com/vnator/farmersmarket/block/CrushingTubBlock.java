@@ -77,13 +77,6 @@ public class CrushingTubBlock extends BaseEntityBlock {
         return RenderShape.MODEL;
     }
 
-    /*
-     * TODO: Implement when BlockEntity is defined.
-     *  onRemove- called when block is broken, drop item inventory in world
-     *  use- called when player right-clicks block, add/remove from inventory or drain fluid into held container
-     *  fallOn- called when player jumps onto block, perform crafting operation and play sound
-     * */
-
     @Override
     public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pIsMoving){
         if(pState.getBlock() != pNewState.getBlock()){

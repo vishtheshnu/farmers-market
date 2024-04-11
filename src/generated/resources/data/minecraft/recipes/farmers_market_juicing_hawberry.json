@@ -1,0 +1,8 @@
+{
+  "type": "farmers_market:crushing_tub",
+  "input": {
+    "tag": "forge:fruits/hawberry"
+  },
+  "output": "farmers_market:juice_hawberry",
+  "outputAmount": 250
+}

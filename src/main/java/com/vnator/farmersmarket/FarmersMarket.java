@@ -3,6 +3,7 @@ package com.vnator.farmersmarket;
 import com.mojang.logging.LogUtils;
 import com.vnator.farmersmarket.block.ModBlocks;
 import com.vnator.farmersmarket.blockentity.ModBlockEntities;
+import com.vnator.farmersmarket.fluid.ModFluids;
 import com.vnator.farmersmarket.item.ModCreativeModeTabs;
 import com.vnator.farmersmarket.item.ModItems;
 import com.vnator.farmersmarket.recipe.ModRecipes;
@@ -35,8 +36,10 @@ public class FarmersMarket
         ModCreativeModeTabs.register(modEventBus);
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
+        ModFluids.register(modEventBus);
         ModBlockEntities.register(modEventBus);
         ModRecipes.register(modEventBus);
+
 
         modEventBus.addListener(this::commonSetup);
 

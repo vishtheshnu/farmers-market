@@ -1,0 +1,8 @@
+{
+  "type": "farmers_market:crushing_tub",
+  "input": {
+    "tag": "forge:fruits/fig"
+  },
+  "output": "farmers_market:juice_fig",
+  "outputAmount": 250
+}

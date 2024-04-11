@@ -1,0 +1,6 @@
+{
+  "type": "farmers_market:brewing_barrel",
+  "input": "minecraft:water",
+  "output": "minecraft:lava",
+  "brewTime": 100
+}

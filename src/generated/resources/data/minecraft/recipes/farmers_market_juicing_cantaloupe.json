@@ -1,0 +1,8 @@
+{
+  "type": "farmers_market:crushing_tub",
+  "input": {
+    "tag": "forge:fruits/cantaloupe"
+  },
+  "output": "farmers_market:juice_cantaloupe",
+  "outputAmount": 250
+}
