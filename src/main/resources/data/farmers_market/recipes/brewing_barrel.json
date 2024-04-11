@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "www",
+    "i i",
+    "www"
+  ],
+  "key": {
+    "w": {
+      "tag": "minecraft:logs"
+    },
+    "i": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "result": {
+    "item": "farmers_market:brewing_barrel"
+  }
+}
